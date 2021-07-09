@@ -19,9 +19,9 @@ type WeComCn struct{}
 var ErrCityNotFound = errors.New("city name not found")
 
 func (w WeComCn) Get(cityName string) (data Data, err error) {
-	cityCode, ok := weComCnCities[cityName]
-	if !ok {
-		return data, errors.WithMessage(ErrCityNotFound, cityName)
+	cityCode, err := GetCityID(cityName)
+	if err != nil {
+		return data, err
 	}
 
 	resp, err := http.DefaultClient.Get("http://d1.weather.com.cn/weather_index/" + cityCode + ".html?_=" + strconv.Itoa(int(time.Now().UnixNano()/1000000)))

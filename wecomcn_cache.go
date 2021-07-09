@@ -1,5 +1,15 @@
 package weather
 
+import "github.com/pkg/errors"
+
+func GetCityID(city string) (string, error) {
+	id, ok := weComCnCities[city]
+	if !ok {
+		return "", errors.WithMessage(ErrCityNotFound, city)
+	}
+	return id, nil
+}
+
 var weComCnCities = map[string]string{
 	"丁青":         "101140502",
 	"七台河":        "101051002",
